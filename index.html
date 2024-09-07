@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greenio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Circular Std', Arial, sans-serif;
+            color: #ffffff;
+            background-color: #282c34;
+        }
+
+        /* Falling Icons Animation */
+        .falling-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .falling-icons img {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Randomized Falling Icons */
+        .falling-icons img:nth-child(1) { left: 10%; animation-duration: 5s; animation-delay: 0s; }
+        .falling-icons img:nth-child(2) { left: 30%; animation-duration: 7s; animation-delay: 1s; }
+        .falling-icons img:nth-child(3) { left: 50%; animation-duration: 6s; animation-delay: 2s; }
+        .falling-icons img:nth-child(4) { left: 70%; animation-duration: 8s; animation-delay: 3s; }
+        .falling-icons img:nth-child(5) { left: 90%; animation-duration: 5s; animation-delay: 4s; }
+        .falling-icons img:nth-child(6) { left: 20%; animation-duration: 6s; animation-delay: 5s; }
+        .falling-icons img:nth-child(7) { left: 40%; animation-duration: 7s; animation-delay: 6s; }
+        .falling-icons img:nth-child(8) { left: 60%; animation-duration: 6s; animation-delay: 7s; }
+        .falling-icons img:nth-child(9) { left: 80%; animation-duration: 7s; animation-delay: 8s; }
+        .falling-icons img:nth-child(10) { left: 25%; animation-duration: 8s; animation-delay: 9s; }
+        .falling-icons img:nth-child(11) { left: 55%; animation-duration: 6s; animation-delay: 10s; }
+
+        /* Background */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #282c34;
+            z-index: 0;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: fadeIn 2s ease-out;
+            color: #e0f2f1;
+        }
+        .nav-links {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 2;
+        }
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-family: 'Circular Std', Arial, sans-serif;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #ff4081;
+        }
+
+        /* Content Sections */
+        .content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding: 20px; /* Adjusted for smaller screens */
+            color: #ffffff;
+            background: rgba(28, 28, 28, 0.9);
+            display: none;
+            z-index: 2;
+        }
+        .content h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: slideUp 1s ease-out;
+        }
+        .content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column; /* Stack on mobile */
+            align-items: center; /* Center items */
+            gap: 20px;
+        }
+        .form-container form {
+            background: #2e2e2e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-family: 'Circular Std', Arial, sans-serif;
+            text-align: center; /* Center heading */
+        }
+        .form-container input, 
+        .form-container textarea, 
+        .form-container select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+        }
+        .form-container button {
+            background: #ff4081;
+            color: #ffffff;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+        .form-container button:hover {
+            background: #e73370;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page Display */
+        .about, .contact {
+            display: none;
+        }
+        .about.active, .contact.active {
+            display: block;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+        .back-button:hover {
+            background-color: #e73370;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 4rem; /* Adjusted for smaller screens */
+            }
+            .content h1 {
+                font-size: 3rem; /* Adjusted for smaller screens */
+            }
+            .nav-links {
+                flex-direction: column; /* Stack links on small screens */
+                top: 10px;
+                left: 10px;
+            }
+            .nav-links a {
+                font-size: 1.2rem; /* Adjusted for smaller screens */
+            }
+            .content p {
+                font-size: 1rem; /* Adjusted for smaller screens */
+            }
+            .form-container h2 {
+                font-size: 2rem; /* Adjusted for smaller screens */
+            }
+            .form-container button {
+                font-size: 1rem; /* Adjusted for smaller screens */
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Circular+Std:wght@400;700&display=swap">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="overlay"></div>
+    <div class="falling-icons">
+        <!-- Falling Icons -->
+        <img src="https://img.icons8.com/ios-filled/50/4caf50/leaf.png" alt="Leaf Icon">
+        <img src="https://img.icons8.com/ios-filled/50/fbc02d/sun.png" alt="Sun Icon">
+        <img src="https://img.icons8.com/ios-filled/50/2196f3/water.png" alt="Water Icon">
+        <img src="https://img.icons8.com/emoji/48/000000/red-heart.png" alt="Heart"> <!-- Updated -->
+        <img src="https://img.icons8.com/ios-filled/50/8e24aa/butterfly.png" alt="Butterfly Icon">
+        <img src="https://img.icons8.com/ios-filled/50/009688/sprout.png" alt="Sprout Icon">
+        <img src="https://img.icons8.com/ios-filled/50/3f51b5/cloud.png" alt="Cloud Icon">
+        <img src="https://img.icons8.com/ios-filled/50/03a9f4/globe.png" alt="Globe Icon">
+        <img src="https://img.icons8.com/ios-filled/50/4caf50/handshake.png" alt="Handshake Icon"> <!-- Updated -->        
+    </div>
+
+    <div class="hero">
+        <h1>Greenio</h1>
+        <div class="nav-links">
+            <a href="#about" id="about-link">About Us</a>
+            <a href="#waitlist" id="waitlist-link">Waitlist</a>
+        </div>
+    </div>
+
+    <div class="content about" id="about">
+        <h1>About Us</h1>
+        <p>Greenio is a green search engine that aims to make a positive environmental and social impact. Every search made through Greenio generates revenue, which is used to fund projects that address global challenges like climate change, pollution, and social inequality.</p>
+        <p>Our mission is simple: to turn everyday online searches into a force for good. We believe that small actions can lead to big changes, and with Greenio, you can contribute to a sustainable future with every search.</p>
+        <p>Greenio is committed to transparency. We ensure that the revenue generated is clearly tracked and directed towards impactful environmental and social projects. Greenio offers a simple, meaningful way to make a difference.</p>
+        <a href="#" class="back-button" onclick="goBack()">Back</a>
+    </div>
+    
+
+    <div class="content contact" id="waitlist">
+        <h1>Join the Waitlist</h1>
+        <div class="form-container">
+            <form action="#">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <select required>
+                    <option value="" disabled selected>Select Type</option>
+                    <option value="Customer">Customer</option>
+                    <option value="Investor">Investor</option>
+                </select>
+                <textarea rows="5" placeholder="We welcome any feedback or inquiries. (optional)"></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <a href="#" class="back-button" id="back-to-home-2">Back</a>
+    </div>
+
+    <script>
+        const aboutLink = document.getElementById("about-link");
+        const waitlistLink = document.getElementById("waitlist-link");
+        const backToHomeButtons = document.querySelectorAll(".back-button");
+        const aboutSection = document.getElementById("about");
+        const waitlistSection = document.getElementById("waitlist");
+
+        aboutLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            aboutSection.classList.add("active");
+            waitlistSection.classList.remove("active");
+            scrollToSection(aboutSection);
+        });
+
+        waitlistLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            waitlistSection.classList.add("active");
+            aboutSection.classList.remove("active");
+            scrollToSection(waitlistSection);
+        });
+
+        backToHomeButtons.forEach(button => {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                aboutSection.classList.remove("active");
+                waitlistSection.classList.remove("active");
+                scrollToSection(document.querySelector(".hero"));
+            });
+        });
+
+        function scrollToSection(section) {
+            window.scrollTo({
+                top: section.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
